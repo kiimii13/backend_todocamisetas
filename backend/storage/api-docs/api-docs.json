@@ -1,0 +1,547 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API TodoCamisetas",
+        "description": "API RESTful para la gestión de camisetas de fútbol, clientes B2B y tallas. Permite administrar inventario, clientes y calcular precios finales según las reglas de negocio definidas para clientes preferenciales.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Servidor local Docker"
+        }
+    ],
+    "paths": {
+        "/health": {
+            "get": {
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Verificar estado de la API",
+                "description": "Endpoint de monitoreo para comprobar que la API se encuentra operativa.",
+                "operationId": "574a7ce16250fb4c623264c68ff73099",
+                "responses": {
+                    "200": {
+                        "description": "API funcionando correctamente"
+                    }
+                }
+            }
+        },
+        "/v1/clientes": {
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Listar clientes",
+                "operationId": "f0fd6452057aac18fca8c4b5613cbd91",
+                "responses": {
+                    "200": {
+                        "description": "Listado de clientes obtenido correctamente"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Crear cliente",
+                "operationId": "fb7e5c25954daa33370fda644d8a2ce8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "90minutos"
+                                    },
+                                    "tipo_cliente": {
+                                        "type": "string",
+                                        "example": "Preferencial"
+                                    },
+                                    "activo": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cliente creado correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/v1/clientes/{cliente}": {
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Mostrar cliente por ID",
+                "operationId": "4323533d008ec4e7e44ffd008cc899a4",
+                "parameters": [
+                    {
+                        "name": "cliente",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cliente encontrado"
+                    },
+                    "404": {
+                        "description": "Cliente no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Actualizar cliente",
+                "operationId": "a3fa5a8d3a90e8b0396dfeba014a1883",
+                "parameters": [
+                    {
+                        "name": "cliente",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "90minutos"
+                                    },
+                                    "tipo_cliente": {
+                                        "type": "string",
+                                        "example": "Preferencial"
+                                    },
+                                    "activo": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cliente actualizado correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Eliminar cliente",
+                "operationId": "10135a0607ea8babce2cde0b859c93a8",
+                "parameters": [
+                    {
+                        "name": "cliente",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cliente eliminado correctamente"
+                    }
+                }
+            }
+        },
+        "/v1/camisetas": {
+            "get": {
+                "tags": [
+                    "Camisetas"
+                ],
+                "summary": "Listar camisetas",
+                "operationId": "c64ad8130b8e1bd14b0844bdad8bda2b",
+                "parameters": [
+                    {
+                        "name": "cliente_id",
+                        "in": "query",
+                        "description": "ID del cliente para calcular precio final",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listado de camisetas obtenido correctamente"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Camisetas"
+                ],
+                "summary": "Crear camiseta",
+                "operationId": "3c43ee4b81a3c5a99524b3505b52761f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Camiseta titular"
+                                    },
+                                    "precio": {
+                                        "type": "integer",
+                                        "example": 45000
+                                    },
+                                    "activo": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "tallas": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2,
+                                            3
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Camiseta creada correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/v1/camisetas/{camiseta}": {
+            "get": {
+                "tags": [
+                    "Camisetas"
+                ],
+                "summary": "Mostrar camiseta por ID",
+                "operationId": "30110ec067add52f85ba0e57c7cd9add",
+                "parameters": [
+                    {
+                        "name": "camiseta",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "cliente_id",
+                        "in": "query",
+                        "description": "ID del cliente para calcular precio final",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Camiseta encontrada"
+                    },
+                    "404": {
+                        "description": "Camiseta no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Camisetas"
+                ],
+                "summary": "Actualizar camiseta",
+                "operationId": "604494963811cdf85fbe0533fe209c34",
+                "parameters": [
+                    {
+                        "name": "camiseta",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Camiseta titular"
+                                    },
+                                    "precio": {
+                                        "type": "integer",
+                                        "example": 45000
+                                    },
+                                    "activo": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "tallas": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2,
+                                            3
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Camiseta actualizada correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Camisetas"
+                ],
+                "summary": "Eliminar camiseta",
+                "operationId": "cebfc4d418994e13a8d595d5e735f1c7",
+                "parameters": [
+                    {
+                        "name": "camiseta",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Camiseta eliminada correctamente"
+                    }
+                }
+            }
+        },
+        "/v1/tallas": {
+            "get": {
+                "tags": [
+                    "Tallas"
+                ],
+                "summary": "Listar tallas",
+                "operationId": "0051318575218b9721043567b3cafc2c",
+                "responses": {
+                    "200": {
+                        "description": "Listado de tallas obtenido correctamente"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tallas"
+                ],
+                "summary": "Crear talla",
+                "operationId": "74c9728661c962315ff7a4fc4d07a266",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "M"
+                                    },
+                                    "activo": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Talla creada correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/v1/tallas/{talla}": {
+            "get": {
+                "tags": [
+                    "Tallas"
+                ],
+                "summary": "Mostrar talla por ID",
+                "operationId": "64a971627dfeb15dc5b4d4707e45bdd6",
+                "parameters": [
+                    {
+                        "name": "talla",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Talla encontrada"
+                    },
+                    "404": {
+                        "description": "Talla no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tallas"
+                ],
+                "summary": "Actualizar talla",
+                "operationId": "90f147a62aa5426b9d16fc76b768e6e2",
+                "parameters": [
+                    {
+                        "name": "talla",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "M"
+                                    },
+                                    "activo": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Talla actualizada correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tallas"
+                ],
+                "summary": "Eliminar talla",
+                "operationId": "72eee99fcaae89732f02733c5663f496",
+                "parameters": [
+                    {
+                        "name": "talla",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Talla eliminada correctamente"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Clientes",
+            "description": "Gestión de clientes B2B"
+        },
+        {
+            "name": "Camisetas",
+            "description": "Gestión de camisetas disponibles"
+        },
+        {
+            "name": "Tallas",
+            "description": "Gestión de tallas"
+        },
+        {
+            "name": "Health",
+            "description": "Health"
+        }
+    ]
+}

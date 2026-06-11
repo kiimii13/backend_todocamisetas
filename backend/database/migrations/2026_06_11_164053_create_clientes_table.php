@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+   public function up(): void
+    {
+Schema::create('clientes', function (Blueprint $table) {
+    $table->id();
+    $table->string('nombre_comercial');
+    $table->string('rut')->unique();
+    $table->string('direccion');
+    $table->enum('categoria', ['Regular', 'Preferencial']);
+    $table->string('contacto_nombre');
+    $table->string('contacto_email');
+    $table->integer('porcentaje_oferta')->default(0);
+    $table->boolean('activo')->default(true);
+    $table->timestamps();
+});
+
+}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('clientes');
+    }
+};
