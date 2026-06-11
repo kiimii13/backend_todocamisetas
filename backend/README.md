@@ -166,6 +166,39 @@ http://localhost:8000/api/documentation
 ```
 
 Desde esta interfaz se pueden revisar los endpoints disponibles, parámetros, respuestas y estructura general de la API.
+## Colección Postman
+
+Además de la documentación Swagger/OpenAPI, el proyecto incluye una colección Postman exportada en formato JSON, lista para importar y consumir los servicios de la API.
+
+La colección contiene ejemplos detallados de Request y Response para los principales endpoints del sistema:
+
+* Health.
+* Clientes.
+* Camisetas.
+* Tallas.
+* Cálculo de precio final según tipo de cliente.
+* Control de errores 404 para recursos inexistentes.
+* Control de errores 422 para validaciones de datos.
+
+Ruta del archivo dentro del repositorio:
+
+```txt
+postman/TodoCamisetas.postman_collection.json
+```
+
+Para utilizarla en Postman:
+
+1. Abrir Postman.
+2. Seleccionar `Import`.
+3. Elegir el archivo `TodoCamisetas.postman_collection.json`.
+4. Importar la colección.
+5. Ejecutar los requests usando la variable:
+
+```txt
+base_url = http://localhost:8000/api
+```
+
+Esta colección permite probar la API de forma ordenada y facilita la revisión de los servicios implementados.
 
 ## Ejecución del proyecto
 
